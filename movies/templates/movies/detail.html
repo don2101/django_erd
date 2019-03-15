@@ -1,0 +1,19 @@
+{% extends 'movies/base.html' %}
+
+{% block title %}
+    Movie Detail
+{% endblock %}
+
+{% block body %}
+    {{ movie.id }}
+    {{ movie.title }}
+    {{ movie.genre }}
+    {{ movie.audience }}
+    {{ movie.poster_url }}
+    {{ movie.description }}
+
+    <a href="{% url 'movie:movie_list' %}">Movie List</a>
+    <a href="{% url 'movie:movie_update' movie.id %}">Edit</a>
+    <a href="{% url 'movie:movie_delete' movie.id %}">Delete</a>
+
+{% endblock %}
