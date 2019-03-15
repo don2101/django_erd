@@ -9,7 +9,7 @@ class Genre(models.Model):
 class Movie(models.Model):
     title = models.TextField(default='')
     audience = models.IntegerField(default='')
-    poster_url = models.IntegerField(default='')
+    poster_url = models.TextField(default='')
     description = models.TextField(default='')
     genre = models.ForeignKey(Genre, on_delete=models.CASCADE)
 
