@@ -18,7 +18,7 @@
             <div class="card border-dark col-4 col-md-2 offset-1 mt-5 mb-3 px-1">
                 <img src="{{ movie.poster_url }}" class="card-img-top" alt="{{ movie.title }}">
                 <hr>
-                <div class="card-body">
+                <div class="card-body pt-1 pb-3">
                     <a href="{% url 'movie:movie_detail' movie.id %}" class="card-text">{{ movie.title }}</a>
                 </div>
             </div>

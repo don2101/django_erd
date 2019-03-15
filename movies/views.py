@@ -22,7 +22,7 @@ def movie_detail(request, movie_number):
 def movie_update(request, movie_number):
     movie_data = get_object_or_404(Movie, id=movie_number)
 
-    if request == 'GET':
+    if request.method == 'GET':
         context = {}
         context['movie'] = movie_data
         return render(request, 'movies/update.html', context=context)
@@ -33,7 +33,7 @@ def movie_update(request, movie_number):
 
 def movie_delete(request, movie_number):
     movie_data = get_object_or_404(Movie, id=movie_number)
-    if request == 'POST':
+    if request.method == 'POST':
         movie_data.delete()
 
         return redirect('movie:movie_list')
@@ -42,7 +42,7 @@ def movie_delete(request, movie_number):
 def score_create(request, movie_number):
     movie_data = get_object_or_404(Movie, id=movie_number)
 
-    if request == 'POST':
+    if request.method == 'POST':
         return redirect('movie:movie_detail', movie_number)
 
 
@@ -54,7 +54,7 @@ def score_delete(request, movie_number, score_number):
     movie_data = get_object_or_404(Movie, id=movie_number)
     score_data = get_object_or_404(Score, id=score_number)
 
-    if request == 'POST':
+    if request.method == 'POST':
         score_data.delete()
         return redirect('movie:movie_detail', movie_number)
 
