@@ -4,9 +4,25 @@
     Movie List
 {% endblock %}
 
+{% block home_active %}
+    active
+{% endblock %}
+
 {% block body %}
-    {% for movie in movies %}
-        <img src="{{ movie.poster_url }}" alt="{{ movie.title }}">
-        <a href="{% url 'movie:movie_detail' movie.id %}">{{ movie.title }}</a>
-    {% endfor %}
+
+    <h1 class="display-3 mt-5 text-center">Movie List</h1>
+    <hr style="border-color: black">
+
+    <div class="row mt-5">
+        {% for movie in movies %}
+            <div class="card border-dark col-4 col-md-2 offset-1 mt-5 mb-3 px-1">
+                <img src="{{ movie.poster_url }}" class="card-img-top" alt="{{ movie.title }}">
+                <hr>
+                <div class="card-body">
+                    <a href="{% url 'movie:movie_detail' movie.id %}" class="card-text">{{ movie.title }}</a>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
 {% endblock %}
