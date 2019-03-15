@@ -39,14 +39,46 @@
         </div>
     </section>
     <hr class="mt-5 mb-3" style="border-color: black">
-    <div class="row"></div>
 
-    <div class="container">
-        <form action="{% url 'movie:score_create' movie.id %}" method="POST">
-            
 
-        </form>
+    <form action="{% url 'movie:score_create' movie.id %}" method="POST" class="form-inline form-row col-7">
+        {% csrf_token %}
+        <label for="score"></label>
+        <input type="number" name="score" id="score" class="form-control" placeholder="평점">
+
+        <label for="content"></label>
+        <input type="text" name="content" id="content" class="form-control offset-1" placeholder="한 줄 남기기">
+
+        <button type="submit" class="btn btn-outline-dark ml-3">Submit</button>
+    </form>
+
+    <div class="col-5">
+        <ul class="list-group list-group-flush">
+            {% if scores %}
+                {% for score in scores %}
+                    <div class="row">
+                        <li class="list-group-item col-8">{{ score.score }}: {{ score.content }}</li>
+
+                        <form action="{% url 'movie:score_delete' movie.id score.id %}" class="col-3" method="POST">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-outline-danger btn-sm">delete</button>
+                        </form>
+                    </div>
+
+                {% endfor %}
+            {% else %}
+                <li class="list-group-item">No scores yet...</li>
+            {% endif %}
+        </ul>
     </div>
+
+
+
+
+
+
+
+
 
 
 

@@ -13,8 +13,10 @@ def movie_list(request):
 
 def movie_detail(request, movie_number):
     movie_data = get_object_or_404(Movie, id=movie_number)
+    score_data = movie_data.score_set.all()
     context = {}
     context['movie'] = movie_data
+    context['scores'] = score_data
 
     return render(request, 'movies/detail.html', context=context)
 
@@ -43,11 +45,16 @@ def score_create(request, movie_number):
     movie_data = get_object_or_404(Movie, id=movie_number)
 
     if request.method == 'POST':
+        score_data = Score()
+        score = request.POST.get('score')
+        content = request.POST.get('content')
+        score_data.content = content
+        score_data.score = score
+        score_data.movie = movie_data
+
+        score_data.save()
+
         return redirect('movie:movie_detail', movie_number)
-
-
-def score_list(request):
-    pass
 
 
 def score_delete(request, movie_number, score_number):
@@ -56,5 +63,6 @@ def score_delete(request, movie_number, score_number):
 
     if request.method == 'POST':
         score_data.delete()
+
         return redirect('movie:movie_detail', movie_number)
 
