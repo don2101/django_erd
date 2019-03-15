@@ -9,79 +9,84 @@
 {% endblock %}
 
 {% block body %}
+
+    <!-- Movie Information -->
     <h1 class="display-4 mt-5">영화 정보</h1>
     <hr style="border-color: black">
 
     <section class="row mt-5">
         <div class="col-4">
-            <img src="{{ movie.poster_url }}" class="card-img-top" alt="{{ movie.title }}">
+            <img src="{{ movie.poster_url }}" class="card-img-top d-flex justify-content-center"
+                 alt="{{ movie.title }}">
         </div>
         <div class="col-6 offset-1">
             <h1 class="mt-2 mb-4">{{ movie.title }}</h1>
             <h2 class="mt-2 mb-4">장르: {{ movie.genre.name }}</h2>
-            <h4 class="mt-3 mb-4">관객수: {{ movie.audience }}</h4>
+            <h4 class="mt-3 mb-4">관객수: {{ movie.audience }}명</h4>
             <hr style="border-color: black">
             <h5 class="mt-5">{{ movie.description }}</h5>
 
             <div class="d-flex flex-row align-items-end mt-5">
                 <form action="{% url 'movie:movie_list' %}" class="mr-3">
-                    <button type="submit" class="btn btn-success">Movie List</button>
+                    <button type="submit" class="btn btn-outline-success">Movie List</button>
                 </form>
                 <form action="{% url 'movie:movie_update' movie.id %}" class="mr-3">
-                    <button type="submit" class="btn btn-warning">Edit</button>
+                    <button type="submit" class="btn btn-outline-warning">Edit</button>
                 </form>
                 <form action="{% url 'movie:movie_delete' movie.id %}" class="mr-3" method="POST">
                     {% csrf_token %}
-                    <button type="submit" class="btn btn-danger">Delete</button>
+                    <button type="submit" class="btn btn-outline-danger">Delete</button>
                 </form>
             </div>
 
         </div>
     </section>
-    <hr class="mt-5 mb-3" style="border-color: black">
 
 
-    <form action="{% url 'movie:score_create' movie.id %}" method="POST" class="form-inline form-row col-7">
-        {% csrf_token %}
-        <label for="score"></label>
-        <input type="number" name="score" id="score" class="form-control" placeholder="평점">
+    <h1 class="display-5 mt-5">영화 한줄평</h1>
+    <hr class=" mb-3" style="border-color: black">
 
-        <label for="content"></label>
-        <input type="text" name="content" id="content" class="form-control offset-1" placeholder="한 줄 남기기">
+    <!-- Score Creation -->
+    <div class="row">
+        <div class="col-6">
+            <form action="{% url 'movie:score_create' movie.id %}" method="POST" class="form-inline form-row mt-3">
+                {% csrf_token %}
+                <label for="score"></label>
+                <input type="number" name="score" id="score" class="form-control" placeholder="평점">
 
-        <button type="submit" class="btn btn-outline-dark ml-3">Submit</button>
-    </form>
+                <label for="content"></label>
+                <input type="text" name="content" id="content" class="form-control ml-3" placeholder="한 줄 남기기">
 
-    <div class="col-5">
-        <ul class="list-group list-group-flush">
+                <button type="submit" class="btn btn-outline-dark ml-3">Submit</button>
+            </form>
+        </div>
+
+        <!-- Score List -->
+        <div class="col-6 mt-3">
             {% if scores %}
-                {% for score in scores %}
-                    <div class="row">
-                        <li class="list-group-item col-8">{{ score.score }}: {{ score.content }}</li>
+                <table class="table">
+                    <tbody>
+                    {% for score in scores %}
+                        <tr>
+                            <td>{{ score.score }}</td>
+                            <td>{{ score.content }}</td>
+                            <td>
+                                <form action="{% url 'movie:score_delete' movie.id score.id %}" class="col-3"
+                                      method="POST">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-outline-danger btn-sm">delete</button>
+                                </form>
+                            </td>
+                        </tr>
+                    {% endfor %}
 
-                        <form action="{% url 'movie:score_delete' movie.id score.id %}" class="col-3" method="POST">
-                            {% csrf_token %}
-                            <button type="submit" class="btn btn-outline-danger btn-sm">delete</button>
-                        </form>
-                    </div>
+                    </tbody>
+                </table>
 
-                {% endfor %}
             {% else %}
                 <li class="list-group-item">No scores yet...</li>
             {% endif %}
-        </ul>
+        </div>
     </div>
-
-
-
-
-
-
-
-
-
-
-
-
 
 {% endblock %}
